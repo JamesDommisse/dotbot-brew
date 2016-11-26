@@ -49,10 +49,10 @@ class Brew(dotbot.Plugin):
         log = self._log
         with open(os.devnull, 'w') as devnull:
             stdin = stdout = stderr = devnull
+            installed_packages = subprocess.check_output('brew list', shell=True)
+
             for package in packages_list:
-                cmd = "brew --cellar %s" % package
-                isInstalled = subprocess.call(cmd, shell=True, stdin=stdin, stdout=stdout, stderr=stderr, cwd=cwd)
-                if isInstalled != 0:
+                if package in installed_packages:
                     log.info("Installing %s" % package)
                     cmd = "%s %s" % (install_cmd, package)
                     result = subprocess.call(cmd, shell=True, stdin=stdin, stdout=stdout, stderr=stderr, cwd=cwd)
