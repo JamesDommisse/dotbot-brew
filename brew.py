@@ -52,7 +52,7 @@ class Brew(dotbot.Plugin):
             installed_packages = subprocess.check_output('brew list', shell=True)
 
             for package in packages_list:
-                if package in installed_packages:
+                if package not in installed_packages:
                     log.info("Installing %s" % package)
                     cmd = "%s %s" % (install_cmd, package)
                     result = subprocess.call(cmd, shell=True, stdin=stdin, stdout=stdout, stderr=stderr, cwd=cwd)
